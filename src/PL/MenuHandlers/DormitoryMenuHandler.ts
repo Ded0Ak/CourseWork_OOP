@@ -89,7 +89,7 @@ export class DormitoryMenuHandler {
     } else {
       const headers = ['ID', 'Назва', 'Адреса', 'Кількість кімнат'];
       const rows = dormitories.map(d => [
-        d.id.substring(0, 8),
+        d.id,
         d.name,
         d.address,
         d.getRoomCount().toString()
@@ -137,7 +137,7 @@ export class DormitoryMenuHandler {
     } else {
       const headers = ['ID', 'Номер', 'Поверх', 'Місткість', 'Зайнято', 'Вільно'];
       const rows = rooms.map(r => [
-        r.id.substring(0, 8),
+        r.id,
         r.roomNumber,
         r.floor.toString(),
         r.maxCapacity.toString(),
@@ -199,7 +199,7 @@ export class DormitoryMenuHandler {
     } else {
       const headers = ['ID', 'Прізвище', 'Ім\'я', 'По батькові', 'Телефон'];
       const rows = residents.map(s => [
-        s.id.substring(0, 8),
+        s.id,
         s.lastName,
         s.firstName,
         s.middleName,
@@ -227,7 +227,7 @@ export class DormitoryMenuHandler {
     } else {
       const headers = ['ID', 'Прізвище', 'Ім\'я', 'По батькові'];
       const rows = residents.map(s => [
-        s.id.substring(0, 8),
+        s.id,
         s.lastName,
         s.firstName,
         s.middleName

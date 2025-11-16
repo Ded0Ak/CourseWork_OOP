@@ -90,7 +90,7 @@ export class GroupMenuHandler {
     } else {
       const headers = ['ID', 'Назва', 'Спеціалізація', 'Курс', 'Кількість студентів'];
       const rows = groups.map(g => [
-        g.id.substring(0, 8),
+        g.id,
         g.name,
         g.specialization,
         g.year.toString(),
@@ -202,7 +202,7 @@ export class GroupMenuHandler {
     } else {
       const headers = ['ID', 'Прізвище', 'Ім\'я', 'По батькові'];
       const rows = students.map(s => [
-        s.id.substring(0, 8),
+        s.id,
         s.lastName,
         s.firstName,
         s.middleName

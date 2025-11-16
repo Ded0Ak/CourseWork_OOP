@@ -69,15 +69,15 @@ export class ConsoleHelper {
   }
 
   static printSuccess(message: string): void {
-    console.log(`\n✓ ${message}\n`);
+    console.log(`\n ${message}\n`);
   }
 
   static printError(message: string): void {
-    console.log(`\n✗ Помилка: ${message}\n`);
+    console.log(`\n Помилка: ${message}\n`);
   }
 
   static printInfo(message: string): void {
-    console.log(`\nℹ ${message}\n`);
+    console.log(`\n ${message}\n`);
   }
 
   static printTable(headers: string[], rows: string[][]): void {

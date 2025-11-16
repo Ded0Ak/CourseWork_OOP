@@ -88,7 +88,7 @@ export class StudentMenuHandler {
     } else {
       const headers = ['ID', 'Прізвище', 'Ім\'я', 'По батькові', 'Email', 'Телефон'];
       const rows = students.map(s => [
-        s.id.substring(0, 8),
+        s.id,
         s.lastName,
         s.firstName,
         s.middleName,
@@ -181,7 +181,7 @@ export class StudentMenuHandler {
     } else {
       const headers = ['ID', 'Прізвище', 'Ім\'я', 'По батькові', 'Email'];
       const rows = students.map(s => [
-        s.id.substring(0, 8),
+        s.id,
         s.lastName,
         s.firstName,
         s.middleName,

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/PL/index.js",
-    "dev": "ts-node src/PL/index.ts",
+    "dev": "chcp 65001 >nul 2>&1 & ts-node src/PL/index.ts",
     "test": "jest",
     "test:coverage": "jest --coverage"
   },
