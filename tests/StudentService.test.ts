@@ -116,6 +116,24 @@ describe('StudentService', () => {
         service.createStudent('Петро', 'Сидоренко', 'Іванович', dateOfBirth, email, '+380509876543')
       ).rejects.toThrow(DuplicateEntityException);
     });
+
+    it('should throw ValidationException when lastName is empty', async () => {
+      await expect(
+        service.createStudent('Іван', '', 'Олександрович', new Date('2000-01-01'), 'ivan@example.com', '+380501234567')
+      ).rejects.toThrow(ValidationException);
+    });
+
+    it('should throw ValidationException when middleName is empty', async () => {
+      await expect(
+        service.createStudent('Іван', 'Петренко', '', new Date('2000-01-01'), 'ivan@example.com', '+380501234567')
+      ).rejects.toThrow(ValidationException);
+    });
+
+    it('should throw ValidationException when phone is invalid', async () => {
+      await expect(
+        service.createStudent('Іван', 'Петренко', 'Олександрович', new Date('2000-01-01'), 'ivan@example.com', 'invalid')
+      ).rejects.toThrow(ValidationException);
+    });
   });
 
   describe('updateStudent', () => {
@@ -158,6 +176,38 @@ describe('StudentService', () => {
           '+380501234567'
         )
       ).rejects.toThrow(EntityNotFoundException);
+    });
+
+    it('should throw DuplicateEntityException when updating to existing email', async () => {
+      const student1 = await service.createStudent(
+        'Іван',
+        'Петренко',
+        'Олександрович',
+        new Date('2000-01-01'),
+        'ivan@example.com',
+        '+380501234567'
+      );
+
+      const student2 = await service.createStudent(
+        'Петро',
+        'Сидоренко',
+        'Іванович',
+        new Date('2001-01-01'),
+        'petro@example.com',
+        '+380509876543'
+      );
+
+      await expect(
+        service.updateStudent(
+          student1.id,
+          'Іван',
+          'Петренко',
+          'Олександрович',
+          new Date('2000-01-01'),
+          'petro@example.com', 
+          '+380501234567'
+        )
+      ).rejects.toThrow(DuplicateEntityException);
     });
   });
 
@@ -300,6 +350,12 @@ describe('StudentService', () => {
 
       expect(updated.groupId).toBe(groupId);
     });
+
+    it('should throw EntityNotFoundException when student does not exist', async () => {
+      await expect(
+        service.assignToGroup('non-existent-id', 'group-id')
+      ).rejects.toThrow(EntityNotFoundException);
+    });
   });
 
   describe('removeFromGroup', () => {
@@ -319,6 +375,60 @@ describe('StudentService', () => {
       const updated = await service.getStudentById(student.id);
 
       expect(updated.groupId).toBeNull();
+    });
+
+    it('should throw EntityNotFoundException when student does not exist', async () => {
+      await expect(
+        service.removeFromGroup('non-existent-id')
+      ).rejects.toThrow(EntityNotFoundException);
+    });
+  });
+
+  describe('Student Entity Methods', () => {
+    it('should return full name in correct format', async () => {
+      const student = await service.createStudent(
+        'Іван',
+        'Петренко',
+        'Олександрович',
+        new Date('2000-01-01'),
+        'ivan@example.com',
+        '+380501234567'
+      );
+
+      expect(student.getFullName()).toBe('Петренко Іван Олександрович');
+    });
+
+    it('should correctly check if student is in dormitory', async () => {
+      const student = await service.createStudent(
+        'Іван',
+        'Петренко',
+        'Олександрович',
+        new Date('2000-01-01'),
+        'ivan@example.com',
+        '+380501234567'
+      );
+
+      expect(student.isInDormitory()).toBe(false);
+
+      student.dormitoryRoomId = 'room-123';
+      expect(student.isInDormitory()).toBe(true);
+    });
+
+    it('should correctly check if student is in group', async () => {
+      const student = await service.createStudent(
+        'Іван',
+        'Петренко',
+        'Олександрович',
+        new Date('2000-01-01'),
+        'ivan@example.com',
+        '+380501234567'
+      );
+
+      expect(student.isInGroup()).toBe(false);
+
+      await service.assignToGroup(student.id, 'group-123');
+      const updated = await service.getStudentById(student.id);
+      expect(updated.isInGroup()).toBe(true);
     });
   });
 });

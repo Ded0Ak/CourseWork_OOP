@@ -4,9 +4,6 @@ import { IEntity } from '../Common/IEntity';
 import { IRepository } from './IRepository';
 import { DataAccessException } from '../Common/Exceptions';
 
-/**
- * Репозиторій для роботи з JSON файлами
- */
 export class JsonRepository<T extends IEntity> implements IRepository<T> {
   private data: T[] = [];
   private readonly filePath: string;
@@ -17,9 +14,6 @@ export class JsonRepository<T extends IEntity> implements IRepository<T> {
     this.ensureDataDirectory();
   }
 
-  /**
-   * Переконується що директорія для даних існує
-   */
   private async ensureDataDirectory(): Promise<void> {
     const dataDir = path.dirname(this.filePath);
     try {
@@ -29,16 +23,12 @@ export class JsonRepository<T extends IEntity> implements IRepository<T> {
     }
   }
 
-  /**
-   * Завантажує дані з файлу
-   */
   private async loadData(): Promise<void> {
     try {
       const fileContent = await fs.readFile(this.filePath, 'utf-8');
       this.data = JSON.parse(fileContent);
     } catch (error: any) {
       if (error.code === 'ENOENT') {
-        // Файл не існує, ініціалізуємо порожнім масивом
         this.data = [];
       } else {
         throw new DataAccessException(`Failed to load data from file: ${error.message}`);
@@ -46,9 +36,6 @@ export class JsonRepository<T extends IEntity> implements IRepository<T> {
     }
   }
 
-  /**
-   * Зберігає дані у файл
-   */
   async saveChanges(): Promise<void> {
     try {
       const jsonData = JSON.stringify(this.data, null, 2);
