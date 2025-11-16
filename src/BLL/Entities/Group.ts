@@ -43,4 +43,14 @@ export class Group implements IEntity {
   hasStudent(studentId: string): boolean {
     return this.studentIds.includes(studentId);
   }
+
+  static fromJSON(data: any): Group {
+    return new Group(
+      data.id,
+      data.name,
+      data.specialization,
+      data.year,
+      data.studentIds || []
+    );
+  }
 }

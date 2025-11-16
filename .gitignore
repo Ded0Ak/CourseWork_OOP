@@ -33,3 +33,4 @@ yarn-error.log*
 
 # Data files (uncomment if you don't want to track them)
 src/PL/data/*.json
+data/

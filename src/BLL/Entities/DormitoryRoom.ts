@@ -51,4 +51,14 @@ export class DormitoryRoom implements IEntity {
   isFull(): boolean {
     return this.residentIds.length >= this.maxCapacity;
   }
+
+  static fromJSON(data: any): DormitoryRoom {
+    return new DormitoryRoom(
+      data.id,
+      data.roomNumber,
+      data.floor,
+      data.maxCapacity,
+      data.residentIds || []
+    );
+  }
 }

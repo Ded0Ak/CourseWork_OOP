@@ -21,10 +21,10 @@ class Application {
   private dormitoryMenuHandler: DormitoryMenuHandler;
 
   constructor() {
-    const studentRepository = new JsonRepository<Student>('students.json');
-    const groupRepository = new JsonRepository<Group>('groups.json');
-    const dormitoryRepository = new JsonRepository<Dormitory>('dormitories.json');
-    const roomRepository = new JsonRepository<DormitoryRoom>('rooms.json');
+    const studentRepository = new JsonRepository<Student>('students.json', Student.fromJSON);
+    const groupRepository = new JsonRepository<Group>('groups.json', Group.fromJSON);
+    const dormitoryRepository = new JsonRepository<Dormitory>('dormitories.json', Dormitory.fromJSON);
+    const roomRepository = new JsonRepository<DormitoryRoom>('rooms.json', DormitoryRoom.fromJSON);
 
     this.studentService = new StudentService(studentRepository);
     this.groupService = new GroupService(groupRepository, studentRepository);

@@ -7,10 +7,12 @@ import { DataAccessException } from '../Common/Exceptions';
 export class JsonRepository<T extends IEntity> implements IRepository<T> {
   private data: T[] = [];
   private readonly filePath: string;
+  private deserialize?: (data: any) => T;
 
-  constructor(fileName: string) {
+  constructor(fileName: string, deserialize?: (data: any) => T) {
     const dataDir = path.join(process.cwd(), 'data');
     this.filePath = path.join(dataDir, fileName);
+    this.deserialize = deserialize;
     this.ensureDataDirectory();
   }
 
@@ -26,7 +28,13 @@ export class JsonRepository<T extends IEntity> implements IRepository<T> {
   private async loadData(): Promise<void> {
     try {
       const fileContent = await fs.readFile(this.filePath, 'utf-8');
-      this.data = JSON.parse(fileContent);
+      const rawData = JSON.parse(fileContent);
+      
+      if (this.deserialize) {
+        this.data = rawData.map((item: any) => this.deserialize!(item));
+      } else {
+        this.data = rawData;
+      }
     } catch (error: any) {
       if (error.code === 'ENOENT') {
         this.data = [];

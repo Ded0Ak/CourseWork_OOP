@@ -36,4 +36,13 @@ export class Dormitory implements IEntity {
   getRoomCount(): number {
     return this.roomIds.length;
   }
+
+  static fromJSON(data: any): Dormitory {
+    return new Dormitory(
+      data.id,
+      data.name,
+      data.address,
+      data.roomIds || []
+    );
+  }
 }

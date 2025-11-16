@@ -44,4 +44,18 @@ export class Student implements IEntity {
   isInGroup(): boolean {
     return this.groupId !== null;
   }
+
+  static fromJSON(data: any): Student {
+    return new Student(
+      data.id,
+      data.firstName,
+      data.lastName,
+      data.middleName,
+      new Date(data.dateOfBirth),
+      data.email,
+      data.phone,
+      data.groupId,
+      data.dormitoryRoomId
+    );
+  }
 }
