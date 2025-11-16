@@ -1,0 +1,33 @@
+{
+  "name": "electronic-deanery-ts",
+  "version": "1.0.0",
+  "description": "Electronic Dean's Office - Student Management System",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/PL/index.js",
+    "dev": "ts-node src/PL/index.ts",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "typescript",
+    "oop",
+    "student-management"
+  ],
+  "author": "Ded0Ak",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/readline-sync": "^1.4.4",
+    "readline-sync": "^1.4.10",
+    "uuid": "^13.0.0"
+  }
+}
